@@ -87,7 +87,7 @@ function ImageryPage() {
     <Toaster theme="dark" position="bottom-right" richColors />
     <div className="mx-auto max-w-[1800px] p-2.5 lg:p-3">
       <ImageryHeader />
-      <div className="mt-2 grid grid-cols-1 gap-2.5 2xl:grid-cols-[minmax(0,3fr)_minmax(300px,1fr)]">
+      <div className="mt-2 grid grid-cols-1 gap-2.5 xl:grid-cols-[minmax(0,3fr)_minmax(290px,1fr)]">
         <div className="min-w-0 space-y-2.5">
           <ImageryFilters search={search} setSearch={setSearch} dateRange={dateRange} setDateRange={setDateRange} satellite={satellite} setSatellite={setSatellite} onUpload={() => setUploadOpen(true)} />
           <SatelliteMap scene={selected} zoom={zoom} setZoom={setZoom} layer={mapLayer} setLayer={setMapLayer} />
@@ -163,7 +163,7 @@ function StatusBadge({ status }: { status: SceneStatus }) {
 }
 
 function SceneDetails({ scene, onMap, onPreProcess, preparing, onSuperResolution, superResolving }: { scene: Scene; onMap: () => void; onPreProcess: () => void; preparing: boolean; onSuperResolution: () => void; superResolving: boolean }) {
-  return <aside className="glass-panel min-w-0 rounded-md p-3 2xl:sticky 2xl:top-[70px] 2xl:max-h-[calc(100vh-82px)] 2xl:overflow-auto">
+  return <aside className="glass-panel min-w-0 rounded-md p-3 xl:sticky xl:top-[70px] xl:max-h-[calc(100vh-82px)] xl:overflow-auto">
     <div className="flex items-center justify-between"><h2 className="text-sm font-semibold">Scene Details</h2><Button variant="ghost" size="icon" className="size-7" aria-label="Scene options"><EllipsisVertical className="size-4" /></Button></div>
     <div className="mt-2 grid grid-cols-[102px_minmax(0,1fr)] gap-3"><img src={scene.image} alt={`Selected scene ${scene.location}`} className="h-[92px] w-full rounded-md border border-border object-cover" style={{ objectPosition: scene.position }} /><div className="min-w-0"><p className="break-all text-[8px] font-medium leading-relaxed">{scene.id}</p><div className="mt-1"><StatusBadge status={scene.status} /></div><p className="mt-2 flex items-start gap-1 text-[8px] text-muted-foreground"><MapPin className="mt-0.5 size-3 shrink-0" />{scene.location}</p><p className="mt-1 flex items-center gap-1 text-[8px] text-muted-foreground"><CalendarDays className="size-3" />{scene.date}</p></div></div>
     <div className="my-3 h-px bg-border" />
