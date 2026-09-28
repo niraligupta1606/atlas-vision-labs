@@ -1,19 +1,18 @@
-# Add the Compare imagery workspace
+# Add the Imagery Library
 
-## What will be built
-- Add a responsive `/compare` page matching the supplied reference: compact header and filters, draggable before/after imagery, preview tiles, comparison metrics, spectral bars, confidence chart, warning, selection controls, view modes, and export actions.
-- Keep the current Analysis page’s visual layout and behavior unchanged.
-- Make Compare and Analysis real sidebar links, with the current page highlighted and the same mobile/collapsed navigation behavior.
+## Scope
+- Add a new `/imagery` page within the existing GeoSR Intelligence application.
+- Preserve the current Analysis and Compare pages and reuse their shared navigation, styling, controls, imagery, and notifications.
 
-## Shared application experience
-- Extract the existing navbar, sidebar, filter control, and panel frame into shared presentation components without changing their styling.
-- Reuse the current theme, imagery assets, buttons, typography, menus, project information card, and toast treatment on both pages.
+## Implementation
+- Extend the shared sidebar so Imagery links to `/imagery` and receives the existing active-page treatment.
+- Build the Imagery page from focused sections: header and filters, interactive AOI map, searchable/sortable imagery grid, selected-scene details, metadata, spectral previews, image-quality chart, and upload dialog.
+- Populate twelve realistic local mock scenes and render eight initially visible cards in the dense four-column desktop layout.
+- Wire scene selection, card menus, filtering, sorting, map controls, upload simulation, processing actions, super-resolution progress, and notifications using local state only.
+- Match the uploaded screenshot’s wide map-and-grid workspace with a right details rail, then stack gracefully on tablet and mobile.
+- Add route-specific title, description, Open Graph, and Twitter metadata.
 
-## Interactions
-- Support draggable comparison position, zoom, fullscreen imagery, Quantitative/Spectral tabs, image selection, Split/Swipe/Overlay modes with opacity adjustment, responsive controls, and simulated report/GeoTIFF notifications.
-- Preserve all current Analysis controls, charts, dialogs, and notifications.
-
-## Technical details
-- Add a TanStack route for `/compare` with unique page metadata.
-- Keep all data and actions frontend-only with local mock state.
-- Verify the Analysis and Compare pages at desktop and mobile sizes, including navigation, comparison modes, fullscreen, exports, and preview errors.
+## Validation
+- Check the automated build result after edits.
+- Exercise `/imagery` interactions and responsive layout in the browser.
+- Navigate among Imagery, Compare, and Analysis and confirm each page remains functional.
