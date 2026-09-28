@@ -4,7 +4,7 @@ import {
   Activity, Bell, Building2, ChartNoAxesCombined, ChevronDown, CircleHelp, Download,
   Droplets, FileDown, Fullscreen, Globe2, House, Image, Layers3, Leaf, LocateFixed,
   Map, MapPin, Menu, Minus, Orbit, PanelLeftClose, Play, Plus, RadioTower, RefreshCw,
-  Road, Satellite, Search, Settings, ShieldCheck, Sparkles, Thermometer, TrendingUp,
+  Route as Road, Satellite, Search, Settings, ShieldCheck, Sparkles, Thermometer, TrendingUp,
   Upload, Waves, X, Zap,
 } from "lucide-react";
 import {
