@@ -53,7 +53,7 @@ function Popup({ children, className }: { children: ReactNode; className: string
 }
 
 export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }: {
-  active: "Analysis" | "Compare"; open: boolean; setOpen: (v: boolean) => void;
+  active: "Analysis" | "Compare" | "Imagery"; open: boolean; setOpen: (v: boolean) => void;
   collapsed: boolean; setCollapsed: (v: boolean) => void;
 }) {
   return (
@@ -66,6 +66,7 @@ export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }:
             const isActive = active === label;
             const content = <><NavIcon className={`size-4 shrink-0 ${isActive ? "text-primary" : ""}`} />{!collapsed && <span>{label}</span>}</>;
             const className = `flex h-10 w-full items-center gap-3 rounded-md px-3 text-xs transition-all ${isActive ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-glow" : "text-sidebar-foreground hover:bg-accent/60 hover:text-foreground"}`;
+            if (label === "Imagery") return <Link key={label} to="/imagery" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             if (label === "Compare") return <Link key={label} to="/compare" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             if (label === "Analysis") return <Link key={label} to="/" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             return <Button key={label} variant="ghost" onClick={() => setOpen(false)} title={label} className={className}>{content}</Button>;
@@ -87,7 +88,7 @@ export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }:
   );
 }
 
-export function GeoSRLayout({ active, children }: { active: "Analysis" | "Compare"; children: ReactNode }) {
+export function GeoSRLayout({ active, children }: { active: "Analysis" | "Compare" | "Imagery"; children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   return <div className="min-h-screen bg-background text-foreground">
