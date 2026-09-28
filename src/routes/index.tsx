@@ -47,9 +47,6 @@ function GeoSRDashboard() {
   const [zoom, setZoom] = useState(1);
   const [modal, setModal] = useState<ModalState>(null);
   const [comparison, setComparison] = useState(50);
-  const [noticeOpen, setNoticeOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
-
   const runAnalysis = () => {
     setRunning(true); setComplete(false);
     window.setTimeout(() => { setRunning(false); setComplete(true); toast.success("Analysis complete", { description: "Land-cover insights have been refreshed." }); }, 1200);
