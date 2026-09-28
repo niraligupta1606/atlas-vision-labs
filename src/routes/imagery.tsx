@@ -2,9 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useRef, useState, type ComponentType } from "react";
 import {
   CalendarDays, Check, CheckCircle2, ChevronDown, CircleDot, Cloud, Crosshair,
-  Database, EllipsisVertical, FileArchive, FileImage, Focus, GalleryHorizontal,
-  Image as ImageIcon, Layers3, LocateFixed, Map, MapPin, Maximize, Minus, Orbit,
-  Plus, RefreshCw, Satellite, Search, Sparkles, Upload, Waves, X,
+  Database, EllipsisVertical, FileArchive, Focus, Image as ImageIcon, Layers3,
+  LocateFixed, Map, MapPin, Minus, Orbit, Plus, RefreshCw, Satellite, Search,
+  Sparkles, Upload, X,
 } from "lucide-react";
 import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { toast, Toaster } from "sonner";
@@ -37,7 +37,7 @@ type Scene = {
   position: string; coordinates: string; area: string;
 };
 
-const scenes: Scene[] = [
+const scenes: [Scene, ...Scene[]] = [
   { id: "S2A_MSIL2A_20250415T053621", location: "Kanpur, Uttar Pradesh, India", date: "2025-04-15 05:36", cloud: "8.2%", resolution: "10 m", status: "Ready", satellite: "Sentinel-2", image: satelliteImage, position: "50% 52%", coordinates: "26.4498° N, 80.3319° E", area: "24.6 km²" },
   { id: "S2B_MSIL2A_20250412T054631", location: "Lucknow, Uttar Pradesh, India", date: "2025-04-12 05:46", cloud: "12.4%", resolution: "10 m", status: "Processing", satellite: "Sentinel-2", image: changeImage, position: "24% 45%", coordinates: "26.8467° N, 80.9462° E", area: "18.2 km²" },
   { id: "S2A_MSIL2A_20250408T052621", location: "Ahmedabad, Gujarat, India", date: "2025-04-08 05:26", cloud: "4.7%", resolution: "10 m", status: "Ready", satellite: "Sentinel-2", image: classificationImage, position: "76% 50%", coordinates: "23.0225° N, 72.5714° E", area: "31.4 km²" },
