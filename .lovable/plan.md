@@ -1,18 +1,33 @@
-# Add the Imagery Library
+# Add Super Resolution and Validation
 
 ## Scope
-- Add a new `/imagery` page within the existing GeoSR Intelligence application.
-- Preserve the current Analysis and Compare pages and reuse their shared navigation, styling, controls, imagery, and notifications.
+
+Complete the previously requested Super Resolution workflow, then add the new Validation page. Existing Analysis, Compare, and Imagery page content will remain unchanged.
 
 ## Implementation
-- Extend the shared sidebar so Imagery links to `/imagery` and receives the existing active-page treatment.
-- Build the Imagery page from focused sections: header and filters, interactive AOI map, searchable/sortable imagery grid, selected-scene details, metadata, spectral previews, image-quality chart, and upload dialog.
-- Populate twelve realistic local mock scenes and render eight initially visible cards in the dense four-column desktop layout.
-- Wire scene selection, card menus, filtering, sorting, map controls, upload simulation, processing actions, super-resolution progress, and notifications using local state only.
-- Match the uploaded screenshot’s wide map-and-grid workspace with a right details rail, then stack gracefully on tablet and mobile.
-- Add route-specific title, description, Open Graph, and Twitter metadata.
 
-## Validation
-- Check the automated build result after edits.
-- Exercise `/imagery` interactions and responsive layout in the browser.
-- Navigate among Imagery, Compare, and Analysis and confirm each page remains functional.
+1. Extend the shared GeoSR shell so Super Resolution and Validation are valid active items and real sidebar links. Keep one navbar and one sidebar implementation.
+2. Add `/super-resolution` with:
+   - selected Kanpur scene, preprocessing checklist and details dialog
+   - interactive ESRGAN/model selection and simulated multi-stage processing
+   - reusable before/after comparison behavior matching Compare
+   - RGB, false-color, and NIR output previews
+   - quality, confidence, warning, workflow, navigation, and export controls
+3. Add `/validation` with:
+   - synchronized three-map comparison, zoom, opacity, swipe, and fullscreen controls
+   - validation summary, spectral chart, and per-band metrics
+   - spatial-fidelity cards and uncertainty/error visualization
+   - traceability workflow, scientific notices, report dialog, and export toast
+4. Reuse the existing imagery assets, semantic colors, shared panels, buttons, toast system, and responsive shell.
+
+## Responsive behavior
+
+- Desktop follows the dense reference layouts.
+- Tablet moves right-side panels below the primary comparison area.
+- Mobile stacks maps, controls, metrics, workflows, and actions while retaining the shared hamburger navigation.
+
+## Verification
+
+- Check the preview build and runtime logs.
+- Exercise processing, model/tabs, comparison, zoom, opacity, fullscreen fallback, dialogs, exports, and navigation.
+- Verify `/`, `/analysis`, `/imagery`, `/compare`, `/super-resolution`, and `/validation` at desktop and mobile sizes.
