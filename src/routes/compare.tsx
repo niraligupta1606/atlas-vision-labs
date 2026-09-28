@@ -139,7 +139,7 @@ function ViewModeSelector({ mode, setMode, opacity, setOpacity }: { mode: ViewMo
 }
 
 const metrics: Array<[string, string, string, Icon]> = [["PSNR ↑", "34.28 dB", "(vs. 1m ref)", TrendingUp], ["SSIM ↑", "0.912", "(vs. 1m ref)", TrendingUp], ["RMSE ↓", "0.873", "(vs. 1m ref)", TrendingDown], ["SAM ↓", "1.24", "(vs. 1m ref)", TrendingDown]];
-const bands = [["B2 (Blue)", ".96", "bg-map-water"], ["B3 (Green)", ".94", "bg-success"], ["B4 (Red)", ".93", "bg-map-built"], ["B8 (NIR)", ".91", "bg-chart-4"]];
+const bands: Array<[string, string, string]> = [["B2 (Blue)", ".96", "bg-map-water"], ["B3 (Green)", ".94", "bg-success"], ["B4 (Red)", ".93", "bg-map-built"], ["B8 (NIR)", ".91", "bg-chart-4"]];
 function ComparisonMetrics({ tab, setTab }: { tab: "quantitative" | "spectral"; setTab: (v: "quantitative" | "spectral") => void }) {
   return <GeoPanel title="Comparison Metrics" icon={ChartNoAxesCombined}>
     <div className="p-2">
