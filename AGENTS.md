@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+
+- Keep the GeoSR dashboard as reusable frontend-only React sections with local mock state; no backend is needed for this analytical prototype.
