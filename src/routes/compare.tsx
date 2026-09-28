@@ -53,7 +53,7 @@ function ComparePage() {
       <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,2.7fr)_minmax(280px,1fr)]">
         <div className="min-w-0 space-y-3">
           <ComparisonFilters />
-          <ImageComparisonSlider ref={comparisonRef} position={position} setPosition={setPosition} zoom={zoom} setZoom={setZoom} onFullscreen={fullscreen} mode={mode} opacity={opacity} />
+          <ImageComparisonSlider comparisonRef={comparisonRef} position={position} setPosition={setPosition} zoom={zoom} setZoom={setZoom} onFullscreen={fullscreen} mode={mode} opacity={opacity} />
           <PreviewGrid />
           <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.55fr_.95fr]">
             <SideBySideComparison selected={selected} setSelected={setSelected} />
@@ -85,13 +85,14 @@ function ComparisonFilters() {
   </section>;
 }
 
-function ImageComparisonSlider({ position, setPosition, zoom, setZoom, onFullscreen, mode, opacity }: {
+function ImageComparisonSlider({ comparisonRef, position, setPosition, zoom, setZoom, onFullscreen, mode, opacity }: {
+  comparisonRef: React.RefObject<HTMLDivElement | null>;
   position: number; setPosition: (v: number) => void; zoom: number; setZoom: (v: number) => void;
   onFullscreen: () => void; mode: ViewMode; opacity: number;
-}, ref: React.ForwardedRef<HTMLDivElement>) {
-  return <div ref={ref} className="glass-panel relative h-[310px] overflow-hidden rounded-md bg-panel sm:h-[360px] xl:h-[342px]">
+}) {
+  return <div ref={comparisonRef} className="glass-panel relative h-[310px] overflow-hidden rounded-md bg-panel sm:h-[360px] xl:h-[342px]">
     <ComparisonCanvas position={position} zoom={zoom} mode={mode} opacity={opacity} />
-    {mode === "swipe" && <input aria-label="Image comparison position" type="range" min="10" max="90" value={position} onChange={(event) => setPosition(Number(event.target.value))} className="absolute inset-0 z-20 size-full cursor-ew-resize opacity-0" />}
+    {mode !== "overlay" && <input aria-label="Image comparison position" type="range" min="10" max="90" value={position} onChange={(event) => setPosition(Number(event.target.value))} className="absolute inset-0 z-20 size-full cursor-ew-resize opacity-0" />}
     <span className="absolute left-3 top-3 z-30 rounded-md bg-panel/90 px-2 py-1 text-[9px] shadow-md">Original (10 m)</span>
     <span className="absolute right-3 top-3 z-30 rounded-md bg-panel/90 px-2 py-1 text-[9px] shadow-md">Super Resolved (2.5 m)</span>
     <span className="absolute bottom-3 left-3 z-30 flex items-center gap-1.5 rounded-md bg-panel/90 px-2 py-1 text-[9px]"><MapPin className="size-3 text-primary" />Kanpur, Uttar Pradesh, India</span>
@@ -103,15 +104,10 @@ function ImageComparisonSlider({ position, setPosition, zoom, setZoom, onFullscr
   </div>;
 }
 
-const ForwardedImageComparisonSlider = Object.assign(
-  ({ position, setPosition, zoom, setZoom, onFullscreen, mode, opacity, ref }: Parameters<typeof ImageComparisonSlider>[0] & { ref?: React.Ref<HTMLDivElement> }) => ImageComparisonSlider({ position, setPosition, zoom, setZoom, onFullscreen, mode, opacity }, ref ?? null),
-  { displayName: "ImageComparisonSlider" },
-);
-
 function ComparisonCanvas({ position, zoom, mode, opacity }: { position: number; zoom: number; mode: ViewMode; opacity: number }) {
   const baseClass = "absolute inset-0 size-full object-cover transition-transform duration-300";
   if (mode === "overlay") return <><img src={changeImage} alt="Original lower-resolution Kanpur satellite imagery" className={baseClass} style={{ transform: `scale(${zoom})`, filter: "blur(1.4px) saturate(.78)" }} /><img src={satelliteImage} alt="Super resolved Kanpur satellite imagery overlay" className={`${baseClass} transition-opacity`} style={{ transform: `scale(${zoom})`, opacity: opacity / 100 }} /></>;
-  if (mode === "split") return <><div className="absolute inset-y-0 left-0 w-1/2 overflow-hidden border-r border-primary"><img src={changeImage} alt="Original lower-resolution Kanpur satellite imagery" className="absolute inset-y-0 left-0 h-full w-[200%] max-w-none object-cover" style={{ transform: `scale(${zoom})`, transformOrigin: "left center", filter: "blur(1.4px) saturate(.78)" }} /></div><div className="absolute inset-y-0 right-0 w-1/2 overflow-hidden"><img src={satelliteImage} alt="Super resolved Kanpur satellite imagery" className="absolute inset-y-0 right-0 h-full w-[200%] max-w-none object-cover" style={{ transform: `scale(${zoom})`, transformOrigin: "right center" }} /></div><Divider position={50} /></>;
+  if (mode === "split") return <><img src={satelliteImage} alt="Super resolved Kanpur satellite imagery" className={baseClass} style={{ transform: `scale(${zoom})` }} /><div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${position}%` }}><img src={changeImage} alt="Original lower-resolution Kanpur satellite imagery" className="absolute inset-y-0 left-0 h-full max-w-none object-cover" style={{ width: `${10000 / position}%`, transform: `scale(${zoom})`, transformOrigin: "left center", filter: "blur(1.4px) saturate(.78)" }} /></div><Divider position={position} /></>;
   return <><img src={satelliteImage} alt="Super resolved Kanpur satellite imagery" className={baseClass} style={{ transform: `scale(${zoom})` }} /><div className="absolute inset-y-0 left-0 overflow-hidden" style={{ width: `${position}%` }}><img src={changeImage} alt="Original lower-resolution Kanpur satellite imagery" className="absolute inset-y-0 left-0 h-full max-w-none object-cover" style={{ width: `${10000 / position}%`, transform: `scale(${zoom})`, transformOrigin: "left center", filter: "blur(1.4px) saturate(.78)" }} /></div><Divider position={position} /></>;
 }
 
@@ -162,5 +158,3 @@ function SpectralConsistency() { const [loaded, setLoaded] = useState(false); us
 function ConfidenceCard() { const data = [{ value: 92 }, { value: 8 }]; return <div className="mt-3 rounded-md border border-border bg-background/20 p-3"><h3 className="text-[10px] font-medium">Confidence &amp; Uncertainty</h3><div className="grid grid-cols-[92px_1fr] items-center gap-3"><div className="relative h-24"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={data} dataKey="value" innerRadius={31} outerRadius={39} startAngle={90} endAngle={-270} stroke="transparent"><Cell fill="var(--primary)" /><Cell fill="var(--muted)" /></Pie></PieChart></ResponsiveContainer><div className="pointer-events-none absolute inset-0 grid place-items-center text-center"><span className="text-[8px] text-muted-foreground">Confidence<br /><b className="text-base text-foreground">92%</b></span></div></div><div className="space-y-3 text-[9px]"><div className="flex justify-between"><span className="text-muted-foreground">Confidence Score</span><b>92%</b></div><div><div className="mb-1 flex justify-between"><span className="text-muted-foreground">Uncertainty</span><b>8%</b></div><div className="h-2 rounded-full bg-muted"><div className="h-full w-[92%] rounded-full bg-success" /></div></div></div></div></div>; }
 
 function ExportShare() { return <GeoPanel title="Export / Share" icon={Upload}><div className="space-y-2 p-3"><Button className="w-full" onClick={() => toast.success("Comparison report generated.", { description: "Your report is ready to download." })}><FileDown className="size-4" />Download Comparison Report</Button><Button variant="outline" className="w-full" onClick={() => toast.loading("GeoTIFF export started.", { duration: 1800 })}><Download className="size-4" />Export Images (GeoTIFF)</Button></div></GeoPanel>; }
-
-const ImageComparisonSlider = ForwardedImageComparisonSlider;
