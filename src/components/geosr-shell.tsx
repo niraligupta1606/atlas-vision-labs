@@ -15,7 +15,7 @@ const navItems: Array<[string, GeoIcon]> = [
   ["Analysis", ChartNoAxesCombined], ["Validation", ShieldCheck], ["Exports", Download], ["Settings", Settings],
 ];
 
-export function GeoSRNavbar({ onMenu, context }: { onMenu: () => void; context?: string }) {
+export function GeoSRNavbar({ onMenu, context }: { onMenu: () => void; context?: string | undefined }) {
   const [noticeOpen, setNoticeOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
