@@ -15,7 +15,7 @@ const navItems: Array<[string, GeoIcon]> = [
   ["Analysis", ChartNoAxesCombined], ["Validation", ShieldCheck], ["Exports", Download], ["Settings", Settings],
 ];
 
-export function GeoSRNavbar({ onMenu }: { onMenu: () => void }) {
+export function GeoSRNavbar({ onMenu, context }: { onMenu: () => void; context?: string }) {
   const [noticeOpen, setNoticeOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -26,10 +26,11 @@ export function GeoSRNavbar({ onMenu }: { onMenu: () => void }) {
         <div className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary/15 text-primary shadow-glow"><Globe2 className="size-6" /></div>
         <span className="hidden text-lg font-semibold sm:block">GeoSR Intelligence</span>
         <div className="hidden h-6 w-px bg-border xl:block" />
-        <span className="hidden text-[10px] text-muted-foreground xl:block">AI-Powered Super Resolution Mapping for a Sharper Tomorrow</span>
+        <span className="hidden text-[10px] text-muted-foreground xl:block">{context ?? "AI-Powered Super Resolution Mapping for a Sharper Tomorrow"}</span>
       </div>
-      <div className="mx-auto hidden w-full max-w-[300px] lg:block">
-        <div className="flex h-8 items-center gap-2 rounded-md border border-border bg-background/40 px-3 text-muted-foreground focus-within:border-primary/70">
+      <div className="mx-auto hidden w-full max-w-[500px] items-center gap-2 lg:flex">
+        {context && <label className="flex h-8 shrink-0 items-center gap-2 rounded-md border border-border bg-background/40 px-2 text-[9px] text-foreground"><Layers3 className="size-3 text-primary" /><select aria-label="Satellite source" className="bg-transparent outline-none"><option className="bg-popover">Sentinel-2 (10m)</option></select></label>}
+        <div className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-md border border-border bg-background/40 px-3 text-muted-foreground focus-within:border-primary/70">
           <Search className="size-4 shrink-0" />
           <input className="min-w-0 flex-1 bg-transparent text-[10px] text-foreground outline-none placeholder:text-muted-foreground" placeholder="Search location / AOI / Scene ID..." />
         </div>
@@ -53,7 +54,7 @@ function Popup({ children, className }: { children: ReactNode; className: string
 }
 
 export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }: {
-  active: "Analysis" | "Compare" | "Imagery"; open: boolean; setOpen: (v: boolean) => void;
+  active: "Analysis" | "Compare" | "Imagery" | "Validation"; open: boolean; setOpen: (v: boolean) => void;
   collapsed: boolean; setCollapsed: (v: boolean) => void;
 }) {
   return (
@@ -69,6 +70,7 @@ export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }:
             if (label === "Imagery") return <Link key={label} to="/imagery" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             if (label === "Compare") return <Link key={label} to="/compare" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             if (label === "Analysis") return <Link key={label} to="/" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
+            if (label === "Validation") return <Link key={label} to="/validation" onClick={() => setOpen(false)} title={label} className={className}>{content}</Link>;
             return <Button key={label} variant="ghost" onClick={() => setOpen(false)} title={label} className={className}>{content}</Button>;
           })}
         </div>
@@ -88,11 +90,11 @@ export function GeoSRSidebar({ active, open, setOpen, collapsed, setCollapsed }:
   );
 }
 
-export function GeoSRLayout({ active, children }: { active: "Analysis" | "Compare" | "Imagery"; children: ReactNode }) {
+export function GeoSRLayout({ active, children, context }: { active: "Analysis" | "Compare" | "Imagery" | "Validation"; children: ReactNode; context?: string }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   return <div className="min-h-screen bg-background text-foreground">
-    <GeoSRNavbar onMenu={() => setSidebarOpen(true)} />
+    <GeoSRNavbar onMenu={() => setSidebarOpen(true)} context={context} />
     <GeoSRSidebar active={active} open={sidebarOpen} setOpen={setSidebarOpen} collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
     <main className={`pt-[58px] transition-all ${sidebarCollapsed ? "lg:pl-[70px]" : "lg:pl-[214px]"}`}>{children}</main>
   </div>;
