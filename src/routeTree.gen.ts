@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AnalysisRouteImport } from './routes/analysis'
 import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ImageryRouteImport } from './routes/imagery'
+import { Route as ValidationRouteImport } from './routes/validation'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const ImageryRoute = ImageryRouteImport.update({
   path: '/imagery',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ValidationRoute = ValidationRouteImport.update({
+  id: '/validation',
+  path: '/validation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/compare': typeof CompareRoute
   '/imagery': typeof ImageryRoute
+  '/validation': typeof ValidationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analysis': typeof AnalysisRoute
   '/compare': typeof CompareRoute
   '/imagery': typeof ImageryRoute
+  '/validation': typeof ValidationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/analysis': typeof AnalysisRoute
   '/compare': typeof CompareRoute
   '/imagery': typeof ImageryRoute
+  '/validation': typeof ValidationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analysis' | '/compare' | '/imagery'
+  fullPaths: '/' | '/analysis' | '/compare' | '/imagery' | '/validation'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analysis' | '/compare' | '/imagery'
-  id: '__root__' | '/' | '/analysis' | '/compare' | '/imagery'
+  to: '/' | '/analysis' | '/compare' | '/imagery' | '/validation'
+  id: '__root__' | '/' | '/analysis' | '/compare' | '/imagery' | '/validation'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AnalysisRoute: typeof AnalysisRoute
   CompareRoute: typeof CompareRoute
   ImageryRoute: typeof ImageryRoute
+  ValidationRoute: typeof ValidationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ImageryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/validation': {
+      id: '/validation'
+      path: '/validation'
+      fullPath: '/validation'
+      preLoaderRoute: typeof ValidationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalysisRoute: AnalysisRoute,
   CompareRoute: CompareRoute,
   ImageryRoute: ImageryRoute,
+  ValidationRoute: ValidationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
