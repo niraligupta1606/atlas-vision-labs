@@ -91,7 +91,7 @@ function ThreeWayComparison({ comparisonRef, zoom, setZoom, opacity, setOpacity,
       <ValidationMap title="Super-Resolved Output (<4m)" image={satelliteImage} zoom={zoom} setZoom={setZoom} />
       <ValidationMap title="High-Resolution Reference" image={referenceImage} zoom={zoom} setZoom={setZoom} />
       <ValidationMap title="Difference / Error Map" image={errorImage} zoom={zoom} setZoom={setZoom} error opacity={opacity} />
-      {swipe && <><input aria-label="Synchronized swipe position" type="range" min="10" max="90" value={swipePosition} onChange={(event) => setSwipePosition(Number(event.target.value))} className="absolute inset-0 z-30 size-full cursor-ew-resize opacity-0" /><div className="pointer-events-none absolute inset-y-2 z-20 w-px bg-primary shadow-glow" style={{ left: `${swipePosition}%` }}><span className="absolute left-1/2 top-1/2 grid size-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-primary bg-panel text-primary">↔</span></div></>}
+      {swipe && <><input aria-label="Synchronized swipe position" type="range" min="10" max="90" value={swipePosition} onChange={(event) => setSwipePosition(Number(event.target.value))} className="absolute inset-0 z-10 size-full cursor-ew-resize opacity-0" /><div className="pointer-events-none absolute inset-y-2 z-20 w-px bg-primary shadow-glow" style={{ left: `${swipePosition}%` }}><span className="absolute left-1/2 top-1/2 grid size-7 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-primary bg-panel text-primary">↔</span></div></>}
     </div>
   </GeoPanel>;
 }
@@ -103,8 +103,8 @@ function ValidationMap({ title, image, zoom, setZoom, error, opacity = 100 }: { 
       <img src={image} alt={`${title} of Kanpur`} className={`size-full object-cover transition-all duration-300 ${error ? "contrast-150 saturate-200 hue-rotate-[165deg]" : ""}`} style={{ transform: `scale(${1 + (zoom - 4) * .08})`, opacity: error ? opacity / 100 : 1 }} />
       <div className="map-scan pointer-events-none absolute inset-0 opacity-20" />
       <span className="absolute left-2 top-2 grid size-6 place-items-center rounded-full border border-border bg-panel/90 text-[8px]">N</span>
-      <Button variant="icon" size="icon" className="absolute right-2 top-2 size-7" aria-label={`Layers for ${title}`}><Layers3 className="size-3.5" /></Button>
-      <div className="absolute right-2 top-10 flex flex-col gap-1"><MapButton icon={Plus} label="Synchronized zoom in" onClick={() => setZoom(Math.min(5.5, zoom + .2))} /><MapButton icon={Minus} label="Synchronized zoom out" onClick={() => setZoom(Math.max(2, zoom - .2))} /></div>
+      <Button variant="icon" size="icon" className="absolute right-2 top-2 z-30 size-7" aria-label={`Layers for ${title}`}><Layers3 className="size-3.5" /></Button>
+      <div className="absolute right-2 top-10 z-30 flex flex-col gap-1"><MapButton icon={Plus} label="Synchronized zoom in" onClick={() => setZoom(Math.min(5.5, zoom + .2))} /><MapButton icon={Minus} label="Synchronized zoom out" onClick={() => setZoom(Math.max(2, zoom - .2))} /></div>
       <strong className="absolute inset-0 grid place-items-center text-xs drop-shadow-md">Kanpur</strong>
       <div className="absolute bottom-2 left-2 rounded bg-panel/90 px-2 py-1 text-[7px]"><div className="flex w-24 justify-between"><span>0</span><span>1</span><span>2</span><span>4 km</span></div><div className="mt-1 h-0.5 bg-foreground" /></div>
       <span className="absolute bottom-2 right-2 rounded bg-panel/90 px-2 py-1 text-[7px]">26.4498°N, 80.3319°E</span>
