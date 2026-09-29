@@ -50,7 +50,7 @@ function ValidationPage() {
   return <GeoSRLayout active="Validation" context="Validation & Scientific Fidelity">
     <Toaster theme="dark" position="bottom-right" richColors />
     <div className="mx-auto max-w-[1800px] p-2.5 lg:p-3">
-      <div className="grid grid-cols-1 gap-2.5 2xl:grid-cols-[minmax(0,3.15fr)_minmax(300px,1fr)]">
+      <div className="grid grid-cols-1 gap-2.5 xl:grid-cols-[minmax(0,3.15fr)_minmax(300px,1fr)]">
         <main className="min-w-0 space-y-2.5">
           <ThreeWayComparison comparisonRef={comparisonRef} zoom={zoom} setZoom={setZoom} opacity={opacity} setOpacity={setOpacity} swipe={swipe} setSwipe={setSwipe} swipePosition={swipePosition} setSwipePosition={setSwipePosition} fullscreen={fullscreen} />
           <div className="grid grid-cols-1 gap-2.5 xl:grid-cols-[1.1fr_1fr]">
@@ -64,7 +64,7 @@ function ValidationPage() {
           <SpectralComparison />
           <PerBandMetrics />
           <ScientificNotice />
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 2xl:grid-cols-1">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-1">
             <Button variant="outline" onClick={() => setReportOpen(true)}><FileText className="size-4" />View Full Validation Report</Button>
             <Button onClick={() => toast.success("Validation report generated successfully.")}><Download className="size-4" />Export Validation Report</Button>
           </div>
@@ -87,7 +87,7 @@ function ThreeWayComparison({ comparisonRef, zoom, setZoom, opacity, setOpacity,
     <span className="hidden rounded-md border border-border px-2 py-1 text-[8px] sm:block">Zoom {zoom.toFixed(1)}x</span>
     <Button variant="icon" size="icon" className="size-7" onClick={fullscreen} aria-label="Fullscreen comparison"><Maximize className="size-3.5" /></Button>
   </div>}>
-    <div ref={comparisonRef} className="relative grid grid-cols-1 gap-1.5 bg-background/20 p-2 lg:grid-cols-3">
+    <div ref={comparisonRef} className="relative grid grid-cols-1 gap-1.5 bg-background/20 p-2 md:grid-cols-3">
       <ValidationMap title="Super-Resolved Output (<4m)" image={satelliteImage} zoom={zoom} setZoom={setZoom} />
       <ValidationMap title="High-Resolution Reference" image={referenceImage} zoom={zoom} setZoom={setZoom} />
       <ValidationMap title="Difference / Error Map" image={errorImage} zoom={zoom} setZoom={setZoom} error opacity={opacity} />
@@ -99,7 +99,7 @@ function ThreeWayComparison({ comparisonRef, zoom, setZoom, opacity, setOpacity,
 function ValidationMap({ title, image, zoom, setZoom, error, opacity = 100 }: { title: string; image: string; zoom: number; setZoom: (value: number) => void; error?: boolean; opacity?: number }) {
   return <section className="min-w-0 overflow-hidden rounded-md border border-primary/50 bg-panel">
     <div className="flex h-7 items-center justify-between border-b border-border px-2 text-[9px] font-medium"><span>{title}</span><span className="rounded border border-primary/40 px-1.5 py-0.5 text-[7px] text-primary">Zoom {zoom.toFixed(1)}x</span></div>
-    <div className="relative h-[225px] overflow-hidden sm:h-[260px] 2xl:h-[276px]">
+    <div className="relative h-[225px] overflow-hidden sm:h-[260px] xl:h-[276px]">
       <img src={image} alt={`${title} of Kanpur`} className={`size-full object-cover transition-all duration-300 ${error ? "contrast-150 saturate-200 hue-rotate-[165deg]" : ""}`} style={{ transform: `scale(${1 + (zoom - 4) * .08})`, opacity: error ? opacity / 100 : 1 }} />
       <div className="map-scan pointer-events-none absolute inset-0 opacity-20" />
       <span className="absolute left-2 top-2 grid size-6 place-items-center rounded-full border border-border bg-panel/90 text-[8px]">N</span>
@@ -120,7 +120,7 @@ const summaryMetrics: Array<[string, string, string, Icon, string]> = [
   ["Spectral Consistency ↑", "0.967", "Higher is better", Waves, "text-success"], ["Spatial Resolution ↑", "3.8 m", "Higher is better", Focus, "text-success"],
 ];
 
-function ValidationSummary() { return <GeoPanel title="Validation Summary" icon={ShieldCheck}><div className="grid grid-cols-2 gap-1.5 p-2 sm:grid-cols-3 2xl:grid-cols-3">{summaryMetrics.map(([label, value, note, MetricIcon, tone]) => <div key={label} className="rounded-md border border-border bg-background/25 p-2"><div className={`flex items-center justify-between text-[8px] ${tone}`}><span>{label}</span><MetricIcon className="size-3" /></div><b className="mt-1 block text-base font-semibold">{value}</b><span className="text-[7px] text-muted-foreground">{note}</span></div>)}</div></GeoPanel>; }
+function ValidationSummary() { return <GeoPanel title="Validation Summary" icon={ShieldCheck}><div className="grid grid-cols-2 gap-1.5 p-2 sm:grid-cols-3 xl:grid-cols-3">{summaryMetrics.map(([label, value, note, MetricIcon, tone]) => <div key={label} className="rounded-md border border-border bg-background/25 p-2"><div className={`flex items-center justify-between text-[8px] ${tone}`}><span>{label}</span><MetricIcon className="size-3" /></div><b className="mt-1 block text-base font-semibold">{value}</b><span className="text-[7px] text-muted-foreground">{note}</span></div>)}</div></GeoPanel>; }
 
 const spectralData = [
   { band: "B02", sr: .24, reference: .29, input: .16 }, { band: "B03", sr: .41, reference: .46, input: .29 },
